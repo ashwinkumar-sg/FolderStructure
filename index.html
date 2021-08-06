@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title></title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+
+  <style>
+      .folder{
+              cursor: pointer;
+              list-style-type: none;
+              }
+      .yellow-color{
+              color:#fd9c0a;
+              padding: 0px 4px 0px 4px;
+
+              }
+      .ul {
+              list-style-type: none;
+          }
+
+  </style>
+</head>
+
+<body>
+  <div id="root">
+
+  </div>
+  <!-- https://unpkg.com/react@16.12.0/umd/react.development.js -->
+  <script src="https://unpkg.com/react@16.12.0/umd/react.development.js"></script>
+  <!-- https://www.unpkg.com/react-dom@16.12.0/umd/react-dom.development.js -->
+  <script src="https://www.unpkg.com/react-dom@16.12.0/umd/react-dom.development.js"></script>
+  <script src="https://www.npmjs.com/package/classnames"></script>
+  <!-- https://unpkg.com/babel-standalone@6.26.0/babel.js -->
+  <script src="https://unpkg.com/babel-standalone@6.26.0/babel.js"></script>
+  <script type="text/babel">
+  
+
+class TreeNode extends React.Component {
+// console.log(props.data);
+  constructor(props) {
+    super(props);
+      this.state = {
+      data: props.data
+    }
+  }
+
+  handleClick(event) {
+    event.stopPropagation();
+    this.setState({
+    data: Object.assign({}, this.state.data, {
+      expanded: !this.state.data.expanded
+        })
+    });
+  }
+
+  render() {
+    return (
+      <li className="folder" onClick={(event) => this.handleClick(event)}>
+      <i class="far fa-plus-square"></i>
+      {this.state.data.expanded?<i class="fa fa-folder-open yellow-color" ></i>:<i class="fa fa-folder yellow-color" ></i>}
+      {this.state.data.value}
+        <ul className="ul">
+          {this.state.data.expanded &&
+          this.state.data.children &&
+          this.state.data.children.map((child) => <TreeNode data={child} />)}
+        </ul>
+      </li>
+    );
+  }
+}
+
+class App extends React.Component {
+constructor(props) {
+  super(props);
+  this.state = {
+    data: [
+      {
+        value: "crop commodities",
+        expanded: false,
+        children: [
+          {
+            value: "BT",
+            expanded: false,
+            children: []
+          },
+          {
+            value: "NT",
+            expanded: false,
+            children: [
+              {
+              value: "Fruit",
+              expanded: false,
+              children: []
+            },
+            {
+              value: "Herbs and spices",
+              expanded: false,
+              children: []
+            },{
+              value: "Grases",
+              expanded: false,
+              children: []
+            },
+            {
+              value: "Nuts and Seeds",
+              expanded: false,
+              children: []
+            },
+            {
+              value: "vegitables",
+              expanded: false,
+              children: [
+                {
+                  value: "BT",
+                  expanded: false,
+                  children: []
+                },
+                {
+                  value: "RT",
+                  expanded: false,
+                  children: []
+                },{
+                  value: "NT",
+                  expanded: false,
+                  children: [
+                    {
+                      value: "vegitable without souce and corn",
+                      expanded: false,
+                      children: []
+                    },
+                    {
+                      value: "Vegitabe with souce",
+                      expanded: false,
+                      children: []
+                    },
+                    {
+                      value: "Nuts and Seeds",
+                      expanded: false,
+                      children: []
+                    },
+                    {
+                      value: "Lettuse and sprouts",
+                      expanded: false,
+                      children: []
+                    },
+                    {
+                      value: "vegitable juice and drinks",
+                      expanded: false,
+                      children: []
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+          }
+        ]
+      },
+      {
+        value: "Domestic",
+        expanded: false,
+        children: [
+          {
+            value: "Detergent",
+            children: []
+          }
+        ]
+      }
+    ]
+  };
+}
+
+render() {
+  return (
+    <ul className="ul">
+      {this.state.data.map((node) => (
+        <TreeNode data={node} />
+      ))}
+    </ul>
+  );
+}
+}
+
+  ReactDOM.render(<App/>,document.getElementById("root"))
+  </script>
+</body>
+
+</html>
